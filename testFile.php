@@ -21,4 +21,8 @@ foreach($files as $file){
 }
 
 
-$m = new LogMonitor($hosts);
+try{
+  $m = new LogMonitor($hosts);
+}catch(\Exception $e){
+  echo $e->getMessage() . "\n";
+}
