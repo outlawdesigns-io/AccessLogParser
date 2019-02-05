@@ -14,10 +14,8 @@ class LogMonitor{
   }
   protected function _parse(){
     foreach($this->_hosts as $host){
-      try{
-        $lines = file($host->logPath);
-      }catch(\Exception $e){
-        throw new \Exception($e->getMessage());
+      if(!$lines = file($host->logPath)){
+        throw new \Exception('Unable to Read: ' . $host->logPath);
       }
       foreach($lines as $line){
         $request = new Request();
