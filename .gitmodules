@@ -1,0 +1,3 @@
+[submodule "PhpUserAgent"]
+	path = PhpUserAgent
+	url = https://github.com/donatj/PhpUserAgent
