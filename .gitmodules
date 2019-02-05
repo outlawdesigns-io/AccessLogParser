@@ -1,3 +1,6 @@
 [submodule "PhpUserAgent"]
 	path = PhpUserAgent
 	url = https://github.com/donatj/PhpUserAgent
+[submodule "Record"]
+	path = Record
+	url = https://github.com/outlawdesigns-io/Record
