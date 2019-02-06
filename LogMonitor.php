@@ -35,6 +35,7 @@ class LogMonitor{
             $request->browser = $user['browser'];
             $request->version = $user['version'];
           }
+          print_r($request);
         }
       }
     }
