@@ -21,8 +21,11 @@ foreach($files as $file){
   $hosts[] = $host;
 }
 
-try{
-  $m = new LogMonitor($hosts);
-}catch(\Exception $e){
-  echo $e->getMessage() . "\n";
+while(true){
+  try{
+    $m = new LogMonitor($hosts);
+  }catch(\Exception $e){
+    echo $e->getMessage() . "\n";
+  }
+  sleep(30);  
 }
