@@ -3,13 +3,6 @@
 require_once __DIR__ . '/LogMonitor.php';
 
 
-try{
-    print_r(Request::lastRequest('api.outlawdesigns.io',80));
-}catch(\Exception $e){
-    echo $e->getMessage() . "\n";
-}
-exit;
-
 $files = array(
   array("host"=>"162.234.44.5","port"=>80,"log"=>"/var/log/apache2/access.log"),
   array("host"=>"api.outlawdesigns.io","port"=>80,"log"=>"/var/log/apache2/api.outlawdesigns.access.log"),

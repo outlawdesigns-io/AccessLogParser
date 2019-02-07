@@ -37,7 +37,7 @@ class AccessLogParser{
             $minute = $timePieces[2];
             $second = $timePieces[3];
             $dateStr = $month . '/' . $day . '/' . $year . ' ' . $hour . ':' . $minute . ':' . $second;
-            return date('m/d/Y H:i:s',strtotime($dateStr));
+            return date('Y/m/d H:i:s',strtotime($dateStr));
         }
         return false;
     }
