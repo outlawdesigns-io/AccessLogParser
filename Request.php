@@ -25,13 +25,14 @@ class Request extends Record{
     {
         parent::__construct(self::DB,self::TABLE,self::PRIMARYKEY,$id);
     }
-    public static function lastRequest($host){
+    public static function lastRequest($host,$port){
         $data = null;
         $results = $GLOBALS['db']
             ->database(self::DB)
             ->table(self::TABLE)
             ->select(self::PRIMARYKEY)
             ->where("host","=","'" . $host . "'")
+            ->andWhere("port","=",$port)
             ->orderBy(self::PRIMARYKEY . " desc limit 1")
             ->get();
         if(!mysqli_num_rows($results)){
