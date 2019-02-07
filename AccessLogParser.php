@@ -6,7 +6,7 @@ class AccessLogParser{
 
     const IPPATTERN = '/[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}/';
     const LOCAHOSTPATTERN = '/::1/';
-    const DATEPATTERN = '/\[(.*)\-[0][0-9]/';
+    const DATEPATTERN = '/\[(.*)\-?[0][0-9]/';
     const METHODPATTERN = '/"([A-Z]{3,7})\s\/?/';
     const QUERYPATTERN = '/\"[A-Z]{3,7}\s(.*)HTTP/';
     const REFERRERPATTERN = '/"http:(.*)\"\w/';
