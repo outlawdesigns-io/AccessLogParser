@@ -35,9 +35,20 @@ class LogMonitor{
             $request->browser = $user['browser'];
             $request->version = $user['version'];
           }
-          print_r($request);
+          $this->_validateRequest($request);
         }
       }
+    }
+    return $this;
+  }
+  protected function _validateRequest($request){
+    try{
+      $lastRequest = Request::lastRequest($request->host,$request->port);
+      if(strtotime($request->requestDate) > strtotime($lastRequest->requestDate)){
+        $request->create();
+      }
+    }catch(\Exception $e){
+      $request->create();
     }
     return $this;
   }
