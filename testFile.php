@@ -4,7 +4,7 @@ require_once __DIR__ . '/LogMonitor.php';
 
 
 try{
-    echo Request::lastRequest('api.outlawdesigns.io',80) . "\n";
+    print_r(Request::lastRequest('api.outlawdesigns.io',80));
 }catch(\Exception $e){
     echo $e->getMessage() . "\n";
 }
