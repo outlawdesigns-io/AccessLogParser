@@ -18,22 +18,25 @@ class LogMonitor{
         throw new \Exception('Unable to Read: ' . $host->logPath);
       }
       foreach($lines as $line){
-        $request = new Request();
-        $request->host = $host->label;
-        $request->port = $host->port;
-        $user = AccessLogParser::parseUserAgent($line);
-        if($user){
-          $request->platform = $user['platform'];
-          $request->browser = $user['browser'];
-          $request->version = $user['version'];
+        if(!$ip_address = AccessLogParser::parseIP($line)){
+          continue;
+        }else{
+          $request = new Request();
+          $request->host = $host->label;
+          $request->port = $host->port;
+          $request->ip_address = $ip_address;
+          $request->requestDate = AccessLogParser::parseDate($line);
+          $request->requestMethod = AccessLogParser::parseMethod($line);
+          $request->query = AccessLogParser::parseQuery($line);
+          $request->referrer = AccessLogParser::parseReferrer($line);
+          $request->responseCode = AccessLogParser::parseResponseCode($line);
+          if($user = AccessLogParser::parseUserAgent($line)){
+            $request->platform = $user['platform'];
+            $request->browser = $user['browser'];
+            $request->version = $user['version'];
+          }
+          print_r($request);
         }
-        $request->ip_address = AccessLogParser::parseIP($line);
-        $request->requestDate = AccessLogParser::parseDate($line);
-        $request->requestMethod = AccessLogParser::parseMethod($line);
-        $request->query = AccessLogParser::parseQuery($line);
-        $request->referrer = AccessLogParser::parseReferrer($line);
-        $request->responseCode = AccessLogParser::parseResponseCode($line);
-        print_r($request);
       }
     }
     return $this;
