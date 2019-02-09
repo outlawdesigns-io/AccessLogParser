@@ -4,15 +4,17 @@ require __DIR__ . '/../models/Request.php';
 
 class AttackMonitor{
 
+  const CONFINT = 1.64;
+
   protected $_hosts = array();
   protected $_counts = array();
 
   public function __construct(){
     $this->_get404s();
-    $fatality = $this->_stdv($this->_counts) * 1.96;
+    $fatality = $this->_stdv($this->_counts) * self::CONINT;
     for($i = 0; $i < count($this->_hosts); $i++){
       if($this->_counts[$i] >= $fatality){
-        echo $this->_hosts[$i] . " -> " . $this->counts[$i] . "\n";
+        echo $this->_hosts[$i] . " -> " . $this->_counts[$i] . "\n";
       }
     }
   }
