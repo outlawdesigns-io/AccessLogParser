@@ -1,6 +1,15 @@
 <?php
 
-require_once __DIR__ . '/LogMonitor.php';
+
+require_once __DIR__ . '/processes/AttackMonitor.php';
+
+try{
+  $a = new AttackMonitor();
+}catch(\Exception $e{
+  echo $e->getMessage() . "\n";
+}
+
+exit;
 
 require_once __DIR__ . '/SendMessage/SendMessage.php';
 
@@ -18,6 +27,7 @@ try{
 
 exit;
 
+require_once __DIR__ . '/LogMonitor.php';
 
 $files = array(
   array("host"=>"162.234.44.5","port"=>80,"log"=>"/var/log/apache2/access.log"),
