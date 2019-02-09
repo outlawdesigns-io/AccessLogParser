@@ -4,13 +4,17 @@ require __DIR__ . '/../models/Request.php';
 
 class AttackMonitor{
 
-  protected $hosts = array();
-  protected $counts = array();
+  protected $_hosts = array();
+  protected $_counts = array();
 
   public function __construct(){
     $this->_get404s();
-    echo $this->_stdv($this->counts) . "\n";
-    echo $this->_stdv($this->counts) * 1.96 . "\n";
+    $fatality = $this->_stdv($this->_counts) * 1.96;
+    for($i = 0; $i < count($this->_hosts); $i++){
+      if($this->_counts[$i] >= $fatality){
+        echo $this->_hosts[$i] . " -> " . $this->counts[$i] . "\n";
+      }
+    }
   }
   protected function _get404s(){
     $results = $GLOBALS['db']
@@ -23,8 +27,8 @@ class AttackMonitor{
       throw new \Exception('No Errors to Monitor!');
     }
     while($row = mysqli_fetch_assoc($results)){
-      $this->hosts[] = $row['ip_address'];
-      $this->counts[] = $row['count'];
+      $this->_hosts[] = $row['ip_address'];
+      $this->_counts[] = $row['count'];
     }
     return $this;
   }
