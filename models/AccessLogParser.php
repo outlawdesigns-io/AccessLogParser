@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/PhpUserAgent/Source/UserAgentParser.php';
+require_once __DIR__ . '/../PhpUserAgent/Source/UserAgentParser.php';
 
 class AccessLogParser{
 

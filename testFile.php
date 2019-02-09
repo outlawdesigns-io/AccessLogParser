@@ -2,6 +2,22 @@
 
 require_once __DIR__ . '/LogMonitor.php';
 
+require_once __DIR__ . '/SendMessage/SendMessage.php';
+
+$message = array(
+  "to"=>array("outlawstar4761@gmail.com"),
+  "subject"=>"Test Message",
+  "body"=>"Hello world."
+);
+
+try{
+  $m = new SendMessage($message);
+}catch(\Exception $e){
+  echo $e->getMessage() . "\n";
+}
+
+exit;
+
 
 $files = array(
   array("host"=>"162.234.44.5","port"=>80,"log"=>"/var/log/apache2/access.log"),
@@ -27,5 +43,5 @@ while(true){
   }catch(\Exception $e){
     echo $e->getMessage() . "\n";
   }
-  sleep(30);  
+  sleep(30);
 }

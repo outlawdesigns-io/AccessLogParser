@@ -1,8 +1,8 @@
 <?php
 
-require __DIR__ . '/Request.php';
-require __DIR__ . '/Host.php';
-require __DIR__ . '/AccessLogParser.php';
+require __DIR__ . '/../models/Request.php';
+require __DIR__ . '/../models/Host.php';
+require __DIR__ . '/../models/AccessLogParser.php';
 
 class LogMonitor{
 
