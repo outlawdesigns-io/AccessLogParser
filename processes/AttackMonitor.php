@@ -11,7 +11,7 @@ class AttackMonitor{
 
   public function __construct(){
     $this->_get404s();
-    $fatality = $this->_stdv($this->_counts) * self::CONINT;
+    $fatality = $this->_stdv($this->_counts) * self::CONFINT;
     for($i = 0; $i < count($this->_hosts); $i++){
       if($this->_counts[$i] >= $fatality){
         echo $this->_hosts[$i] . " -> " . $this->_counts[$i] . "\n";
