@@ -6,7 +6,7 @@ require __DIR__ . '/../MessageClient/MessageClient.php';
 class AttackMonitor extends MessageClient{
 
   const CONFINT = 1.64;
-  const MSGNAME = '404_attack';
+  const MSGNAME = 'http_404_probe';
 
   protected $_hosts = array();
   protected $_counts = array();
