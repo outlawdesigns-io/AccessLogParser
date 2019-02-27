@@ -24,7 +24,7 @@ class AttackMonitor extends MessageClient{
   protected function _authenticate(){
     try{
       $data = self::authenticate($this->_username,$this->_password);
-      $this->_authToken = $data->token;  
+      $this->_authToken = $data->token;
     }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }
@@ -49,9 +49,12 @@ class AttackMonitor extends MessageClient{
   protected function _parse(){
     $fatality = $this->_stdv($this->_counts) * self::CONFINT;
     for($i = 0; $i < count($this->_hosts); $i++){
-      if($this->_counts[$i] >= $fatality && !self::isSent(self::MSGNAME,$this->_hosts[$i],$this->_authToken)){
-        echo $this->_hosts[$i] . " -> " . $this->_counts[$i] . "\n";
-        //todo something
+      if($this->_counts[$i] >= $fatality){
+        if(!self::isSent(self::MSGNAME,$this->_hosts[$i],$this->_authToken)){
+          echo $this->_hosts[$i] . " -> " . $this->_counts[$i] . " NOT SENT\n";
+        }else{
+          echo $this->_hosts[$i] . " -> " . $this->_counts[$i] . " SENT\n";
+        }
       }
     }
     return $this;
