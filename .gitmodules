@@ -4,3 +4,6 @@
 [submodule "Record"]
 	path = Record
 	url = https://github.com/outlawdesigns-io/Record
+[submodule "MessageClient"]
+	path = MessageClient
+	url = https://github.com/outlawdesigns-io/MessageClient
