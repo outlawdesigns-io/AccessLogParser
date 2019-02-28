@@ -7,6 +7,8 @@ class AttackMonitor extends MessageClient{
 
   const CONFINT = 1.64;
   const MSGNAME = 'http_404_probe';
+  const DEVPHONE = 'j.watson@militaryshipment.com';
+  //const DEVPHONE = '9012646875@tmomail.net';
 
   protected $_hosts = array();
   protected $_counts = array();
@@ -49,11 +51,11 @@ class AttackMonitor extends MessageClient{
   protected function _parse(){
     $fatality = $this->_stdv($this->_counts) * self::CONFINT;
     for($i = 0; $i < count($this->_hosts); $i++){
-      if($this->_counts[$i] >= $fatality){
-        if(!self::isSent(self::MSGNAME,$this->_hosts[$i],$this->_authToken)){
-          echo $this->_hosts[$i] . " -> " . $this->_counts[$i] . " NOT SENT\n";
-        }else{
-          echo $this->_hosts[$i] . " -> " . $this->_counts[$i] . " SENT\n";
+      if($this->_counts[$i] >= $fatality && !self::isSent(self::MSGNAME,$this->_hosts[$i],$this->_authToken)){
+        try{
+          self::send($this->_buildMsg($this->_hosts[$i],$this->_counts[$i]),$this->_authToken);
+        }catch(\Exception $e){
+          throw new \Exception($e->getMessage());
         }
       }
     }
@@ -69,6 +71,15 @@ class AttackMonitor extends MessageClient{
       $squares[] = pow($value-$mean,2);
     }
     return sqrt($this->_mean($squares));
+  }
+  protected function _buildMsg($host,$count){
+    return array(
+      "to"=>array(self::DEVPHONE),
+      "body"=>"ATTN malicious activity warning:\nIp address: " . $host . "\nhas generated: " . $count . " 404s.",
+      "flag"=>$host,
+      "msg_name"=>self::MSGNAME,
+      "sent_by"=>"LOE3:" . __FILE__
+    );
   }
 }
 
