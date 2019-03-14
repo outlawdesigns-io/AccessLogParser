@@ -1,9 +1,9 @@
 [submodule "PhpUserAgent"]
-	path = PhpUserAgent
+	path = Libs/PhpUserAgent
 	url = https://github.com/donatj/PhpUserAgent
 [submodule "Record"]
-	path = Record
+	path = Libs/Record
 	url = https://github.com/outlawdesigns-io/Record
 [submodule "MessageClient"]
-	path = MessageClient
+	path = Libs/MessageClient
 	url = https://github.com/outlawdesigns-io/MessageClient

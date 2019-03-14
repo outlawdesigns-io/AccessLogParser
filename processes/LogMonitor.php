@@ -14,8 +14,8 @@ class LogMonitor{
   }
   protected function _parse(){
     foreach($this->_hosts as $host){
-      if(!$lines = file($host->logPath)){
-        throw new \Exception('Unable to Read: ' . $host->logPath);
+      if(!$lines = file($host->log_path)){
+        throw new \Exception('Unable to Read: ' . $host->log_path);
       }
       foreach($lines as $line){
         if(!$ip_address = AccessLogParser::parseIP($line)){

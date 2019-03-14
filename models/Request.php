@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../Record/Record.php';
+require_once __DIR__ . '/../Libs/Record/Record.php';
 
 class Request extends Record{
 

@@ -1,10 +1,7 @@
 <?php
 
+$username = 'test';
+$password = 'test';
 
-require_once __DIR__ . '/processes/AttackMonitor.php';
-
-try{
-  $a = new AttackMonitor();
-}catch(\Exception $e){
-  echo $e->getMessage() . "\n";
-}
+include_once __DIR__ . '/Jobs/StartAttackMonitor.php';
+// include_once __DIR__ . '/Jobs/StartLog';
