@@ -7,8 +7,6 @@ class AttackMonitor extends MessageClient{
 
   const CONFINT = 1.64;
   const MSGNAME = 'http_404_probe';
-  const DEVPHONE = 'j.watson@militaryshipment.com';
-  //const DEVPHONE = '9012646875@tmomail.net';
 
   protected $_hosts = array();
   protected $_counts = array();
@@ -16,21 +14,11 @@ class AttackMonitor extends MessageClient{
   protected $_password;
   protected $_authToken;
 
-  public function __construct($username,$password){
-    $this->_username = $username;
-    $this->_password = $password;
-    $this->_authenticate()
-         ->_get404s()
+  public function __construct($msgTo = null,$authToken = null){
+    $this->_msgTo = $msgTo;
+    $this->_authToken = $authToken;
+    $this->_get404s()
          ->_parse();
-  }
-  protected function _authenticate(){
-    try{
-      $data = self::authenticate($this->_username,$this->_password);
-      $this->_authToken = $data->token;
-    }catch(\Exception $e){
-      throw new \Exception($e->getMessage());
-    }
-    return $this;
   }
   protected function _get404s(){
     $results = $GLOBALS['db']
@@ -74,7 +62,7 @@ class AttackMonitor extends MessageClient{
   }
   protected function _buildMsg($host,$count){
     return array(
-      "to"=>array(self::DEVPHONE),
+      "to"=>array($this->_msgTo),
       "body"=>"ATTN malicious activity warning:\nIp address: " . $host . "\nhas generated: " . $count . " 404s.",
       "flag"=>$host,
       "msg_name"=>self::MSGNAME,
