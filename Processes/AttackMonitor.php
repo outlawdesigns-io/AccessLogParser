@@ -1,7 +1,7 @@
 <?php
 
-require __DIR__ . '/../models/Request.php';
-require __DIR__ . '/../MessageClient/MessageClient.php';
+require __DIR__ . '/../Models/Request.php';
+require __DIR__ . '/../Libs/MessageClient/MessageClient.php';
 
 class AttackMonitor extends MessageClient{
 
