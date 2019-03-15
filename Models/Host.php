@@ -5,7 +5,7 @@ require_once __DIR__ . '/../Libs/Record/Record.php';
 class Host extends Record{
 
   const DB = 'web_access';
-  const TABLE = 'requests';
+  const TABLE = 'hosts';
   const PRIMARYKEY = 'id';
 
   public $id;
