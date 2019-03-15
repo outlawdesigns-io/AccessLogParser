@@ -51,4 +51,12 @@ class Request extends Record{
       }
       return $data;
     }
+    public static function search($key,$value){
+      $data = array();
+      $ids = parent::search(self::DB,self::TABLE,self::PRIMARYKEY,$key,$value);
+      foreach($ids as $id){
+        $data[] = new self($id);
+      }
+      return $data;
+    }
 }
