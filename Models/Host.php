@@ -23,6 +23,5 @@ class Host extends Record{
         $data[] = new self($id);
     }
     return $data;
-}
-
+  }
 }
