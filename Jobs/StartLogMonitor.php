@@ -5,11 +5,8 @@ require_once __DIR__ . '/../Processes/LogMonitor.php';
 
 $hosts = Host::getAll();
 
-while(true){
-  try{
-    $m = new LogMonitor($hosts);
-  }catch(\Exception $e){
-    echo $e->getMessage() . "\n";
-  }
-  sleep(30);
+try{
+  $m = new LogMonitor($hosts);
+}catch(\Exception $e){
+  echo $e->getMessage() . "\n";
 }

@@ -10,5 +10,5 @@
 # CMD      Command         Any command to be executed.
 ################################################################################################################################
 
-*/1 * * * * php /var/www/html/Jobs/StartLogMonitor.php > /tmp/logErrors
-*/5 * * * * php /var/www/html/Jobs/StartAttackMonitor.php > /tmp/AttackErrors 
+*/1 * * * * php /var/www/html/AccessLogParser/Jobs/StartLogMonitor.php > /tmp/logErrors
+*/5 * * * * php /var/www/html/AccessLogParser/Jobs/StartAttackMonitor.php > /tmp/AttackErrors 
