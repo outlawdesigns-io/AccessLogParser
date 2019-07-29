@@ -43,6 +43,46 @@ class Request extends Record{
         }
         return $data;
     }
+    public static function DailyCount($date = null){
+      $data = null;
+      $GLOBALS['db']->database(self::DB)
+                    ->table(self::TABLE)
+                    ->select("count(*) as requests,cast(requestDate as date) as reqDate");
+      if(!is_null($date)){
+        $date = date("Y-m-d",strtotime($date));
+        $GLOBALS['db']->where("cast(requestDate as date)","=","cast('" . $date . "' as date)");
+      }
+      $results = $GLOBALS->groupBy("reqDate")->orderBy("reqDate desc")->get();
+      if(!mysqli_num_rows($results) && !is_null($date)){
+        throw new \Exception("No Requests for " . $date);
+      }elseif(!mysqli_num_rows($results)){
+        throw new \Exception("No Requests");
+      }
+      while($row = mysqli_fetch_assoc($results)){
+        $data[] = $row;
+      }
+      return $data;
+    }
+    public static function SongCounts(){
+      $data = null;
+      $results = $GLOBALS['db']
+          ->database(self::DB)
+          ->table(self::TABLE)
+          ->select("count(*) as listens,query")
+          ->where("host","=","loe.outlawdesigns.io")
+          ->andWhere("query","like","%.mp3")
+          ->andWhere("responseCode","in","(202,206,304)")
+          ->groupBy("query")
+          ->orderBy("listens desc, requestDate desc")
+          ->get();
+      if(!mysqli_num_rows($results)){
+        throw new \Exception("No Songs Streamed");
+      }
+      while($row = mysqli_fetch_assoc($results)){
+        $data[] = $row;
+      }
+      return $data;
+    }
     public static function getAll(){
       $data = array();
       $ids = parent::getAll(self::DB,self::TABLE,self::PRIMARYKEY);
