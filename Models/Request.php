@@ -43,7 +43,7 @@ class Request extends Record{
         }
         return $data;
     }
-    public static function DailyCount($date = null){
+    public static function dailyCount($date = null){
       $data = null;
       $GLOBALS['db']->database(self::DB)
                     ->table(self::TABLE)
@@ -52,7 +52,7 @@ class Request extends Record{
         $date = date("Y-m-d",strtotime($date));
         $GLOBALS['db']->where("cast(requestDate as date)","=","cast('" . $date . "' as date)");
       }
-      $results = $GLOBALS->groupBy("reqDate")->orderBy("reqDate desc")->get();
+      $results = $GLOBALS['db']->groupBy("reqDate")->orderBy("reqDate desc")->get();
       if(!mysqli_num_rows($results) && !is_null($date)){
         throw new \Exception("No Requests for " . $date);
       }elseif(!mysqli_num_rows($results)){
