@@ -29,7 +29,7 @@ class Client extends Record{
   }
   public static function exists($IpAddress){
     $results = $GLOBALS['db']
-        ->databse(self::DB)
+        ->database(self::DB)
         ->table(self::TABLE)
         ->select(self::PRIMARYKEY)
         ->where("IpAddress","=","'" . $IpAddress . "'")
