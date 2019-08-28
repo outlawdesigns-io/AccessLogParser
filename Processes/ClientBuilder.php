@@ -6,6 +6,7 @@ require __DIR__ . '/../Models/Client.php';
 class ClientBuilder{
 
   const LOOPBACK = '127.0.0.1';
+  const LOCAL = '172.17.0.1';
   const IPKEY = 'ip_address';
   const IPAPI = 'http://ip-api.com/json/';
 
@@ -54,6 +55,9 @@ class ClientBuilder{
   public static function isLocalRequest($remoteIp){
     $localIp = self::getLocalIp();
     if($remoteIp == self::LOOPBACK){
+      return true;
+    }
+    if($remoteIp == self::LOCAL){
       return true;
     }
     $localPieces = explode('.',$localIp);
