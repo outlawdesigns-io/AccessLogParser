@@ -64,6 +64,10 @@ class ClientBuilder{
     return false;
   }
   public static function getIpData($ip){
-    return json_decode(file_get_contents(self::IPAPI . $ip));
+    $response =  json_decode(file_get_contents(self::IPAPI . $ip));
+    if($response->status == 'fail'){
+      throw new \Exception($response->message);
+    }
+    return $response;
   }
 }
