@@ -18,7 +18,7 @@ class ClientBuilder{
     $ipList = Request::browse(Request::DB,Request::TABLE,self::IPKEY);
     foreach($ipList as $ip){
       if(!$this->isLocalRequest($ip) && !Client::exists($ip)){
-        $this->$newClients[] = $this->_buildNewClient($ip);
+        $this->newClients[] = $this->_buildNewClient($ip);
       }
     }
     return $this;
