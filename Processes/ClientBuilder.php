@@ -8,6 +8,7 @@ class ClientBuilder{
   const IPKEY = 'ip_address';
 
   public function __construct(){
+    $this->_getClients();
 
   }
   protected function _getClients(){
