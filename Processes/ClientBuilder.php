@@ -5,6 +5,7 @@ require __DIR__ . '/../Models/Client.php';
 
 class ClientBuilder{
 
+  const LOOPBACK = '127.0.0.1';
   const IPKEY = 'ip_address';
 
   public $localIp;
