@@ -9,6 +9,7 @@ class ClientBuilder{
   const LOCAL = '172.17.0.1';
   const IPKEY = 'ip_address';
   const IPAPI = 'http://ip-api.com/json/';
+  const QUERYLIMIT = '200';
 
   public $localIp;
   public $newClients = array();
@@ -19,9 +20,12 @@ class ClientBuilder{
   }
   protected function _getClients(){
     $ipList = Request::browse(Request::DB,Request::TABLE,self::IPKEY);
+    $counter = 0;
     foreach($ipList as $ip){
       if(!preg_match('/:/',$ip) &&!$this->isLocalRequest($ip) && !Client::exists($ip)){
-        $this->newClients[] = $this->_buildNewClient($ip);
+        if($counter++ <= self::QUERYLIMIT){
+          $this->newClients[] = $this->_buildNewClient($ip);
+        }
       }
     }
     return $this;
