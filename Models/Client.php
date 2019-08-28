@@ -25,7 +25,7 @@ class Client extends Record{
   public $Malevolent;
 
   public function __construct($Id = null){
-    parent::__construct(self::DB,self::TABLE,self::PRIMARYKEY,$id);
+    parent::__construct(self::DB,self::TABLE,self::PRIMARYKEY,$Id);
   }
   public static function exists($IpAddress){
     $results = $GLOBALS['db']
