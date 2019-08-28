@@ -7,6 +7,7 @@ class ClientBuilder{
 
   const LOOPBACK = '127.0.0.1';
   const IPKEY = 'ip_address';
+  const IPAPI = 'http://ip-api.com/json/';
 
   public $localIp;
   public $newClients = array();
