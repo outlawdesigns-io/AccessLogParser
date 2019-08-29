@@ -100,6 +100,12 @@ class Request extends Record{
       }
       return $data;
     }
+    public static function total(){
+      return parent::count(self::DB,self::TABLE);
+    }
+    public static function getCountOf($key){
+      return parent::countOf(self::DB,self::TABLE,$key);
+    }
     public static function getAll(){
       $data = array();
       $ids = parent::getAll(self::DB,self::TABLE,self::PRIMARYKEY);

@@ -39,4 +39,10 @@ class Client extends Record{
     }
     return true;
   }
+  public static function total(){
+    return parent::count(self::DB,self::TABLE);
+  }
+  public static function getCountOf($key){
+    return parent::countOf(self::DB,self::TABLE,$key);
+  }
 }
