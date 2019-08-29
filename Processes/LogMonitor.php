@@ -6,6 +6,7 @@ require __DIR__ . '/../Models/AccessLogParser.php';
 class LogMonitor{
 
   protected $_hosts = array();
+  protected $_lastRequest;
 
   public function __construct($hostObjects){
     $this->_hosts = $hostObjects;
@@ -13,6 +14,7 @@ class LogMonitor{
   }
   protected function _parse(){
     foreach($this->_hosts as $host){
+      $this->_lastRequest = Request::lastRequest($host->label,$host->port);
       if(!$lines = file($host->log_path)){
         throw new \Exception('Unable to Read: ' . $host->log_path);
       }
@@ -42,8 +44,8 @@ class LogMonitor{
   }
   protected function _validateRequest($request){
     try{
-      $lastRequest = Request::lastRequest($request->host,$request->port);
-      if(strtotime($request->requestDate) > strtotime($lastRequest->requestDate)){
+      //$lastRequest = Request::lastRequest($request->host,$request->port);
+      if(strtotime($request->requestDate) > strtotime($this->_lastRequest->requestDate)){
         $request->create();
       }
     }catch(\Exception $e){
