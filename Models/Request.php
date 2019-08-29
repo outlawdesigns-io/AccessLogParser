@@ -83,6 +83,23 @@ class Request extends Record{
       }
       return $data;
     }
+    public static function get404s(){
+      $data = null;
+      $results = $GLOBALS['db']
+          ->database(self::DB)
+          ->table(self::TABLE)
+          ->select("ip_address,count(*) as count")
+          ->where("responseCode","=","404")
+          ->groupBy("ip_address")
+          ->get();
+      if(!mysqli_num_rows($results)){
+        throw new \Exception('No 404s produced!');
+      }
+      while($row = mysqli_fetch_assoc($results)){
+        $data[] = $row;
+      }
+      return $data;
+    }
     public static function getAll(){
       $data = array();
       $ids = parent::getAll(self::DB,self::TABLE,self::PRIMARYKEY);

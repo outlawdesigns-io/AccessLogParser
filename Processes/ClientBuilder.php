@@ -9,10 +9,11 @@ class ClientBuilder{
   const LOCAL = '172.17.0.1';
   const IPKEY = 'ip_address';
   const IPAPI = 'http://ip-api.com/json/';
-  const QUERYLIMIT = '200';
+  const QUERYLIMIT = '100';
 
   public $localIp;
   public $newClients = array();
+  public $quotaExcess = array();
 
   public function __construct(){
     $this->localIp = $this->getLocalIp();
@@ -25,6 +26,8 @@ class ClientBuilder{
       if(!preg_match('/:/',$ip) &&!$this->isLocalRequest($ip) && !Client::exists($ip)){
         if($counter++ <= self::QUERYLIMIT){
           $this->newClients[] = $this->_buildNewClient($ip);
+        }else{
+          $this->quotaExcess[] = $ip;
         }
       }
     }
@@ -46,6 +49,7 @@ class ClientBuilder{
     $newClient->RegionName = $ipData->regionName;
     $newClient->TimeZone = $ipData->timezone;
     $newClient->Zip = $ipData->zip;
+    return $newClient;
   }
   public function save(){
     foreach($this->newClients as $client){

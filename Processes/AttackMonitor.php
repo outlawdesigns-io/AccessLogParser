@@ -21,16 +21,12 @@ class AttackMonitor extends MessageClient{
          ->_parse();
   }
   protected function _get404s(){
-    $results = $GLOBALS['db']
-                  ->database(Request::DB)
-                  ->table(Request::TABLE)
-                  ->select("ip_address,count(*) as count")
-                  ->where("responseCode","=","404 group by ip_address")
-                  ->get();
-    if(!mysqli_num_rows($results)){
-      throw new \Exception('No Errors to Monitor!');
+    try{
+      $counts = Request::get404s();
+    }catch(\Exception $e){
+      throw new \Exception($e->getMessage());
     }
-    while($row = mysqli_fetch_assoc($results)){
+    foreach($counts as $row){
       $this->_hosts[] = $row['ip_address'];
       $this->_counts[] = $row['count'];
     }
