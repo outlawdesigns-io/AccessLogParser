@@ -11,4 +11,5 @@
 ################################################################################################################################
 
 0 */3 * * * php /var/www/html/AccessLogParser/Jobs/StartLogMonitor.php > /tmp/logErrors
-15 */4 * * * php /var/www/html/AccessLogParser/Jobs/StartAttackMonitor.php > /tmp/AttackErrors 
+15 */4 * * * php /var/www/html/AccessLogParser/Jobs/StartAttackMonitor.php > /tmp/AttackErrors
+20 */4 * * * php /var/www/html/AccessLogParser/Jobs/StartAttackMonitor.php > /tmp/ClientErrors
