@@ -8,7 +8,7 @@ class ClientBuilder{
   const LOOPBACK = '127.0.0.1';
   const LOCAL = '172.17.0.1';
   const IPKEY = 'ip_address';
-  const IPPATT = '/[1-9]{1,3}.[1-9]{1,3}.[1-9]{1,3}.[1-9]{1,3}/';
+  const IPPATT = '/[1-9]{1,3}\.[1-9]{1,3}\.[1-9]{1,3}\.[1-9]{1,3}/';
   const IPAPI = 'http://ip-api.com/json/';
   const QUERYLIMIT = '100';
 
