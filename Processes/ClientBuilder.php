@@ -8,6 +8,7 @@ class ClientBuilder{
   const LOOPBACK = '127.0.0.1';
   const LOCAL = '172.17.0.1';
   const IPKEY = 'ip_address';
+  const IPPATT = '/[1-9]{1,3}.[1-9]{1,3}.[1-9]{1,3}.[1-9]{1,3}/';
   const IPAPI = 'http://ip-api.com/json/';
   const QUERYLIMIT = '100';
 
@@ -23,7 +24,7 @@ class ClientBuilder{
     $ipList = Request::browse(Request::DB,Request::TABLE,self::IPKEY);
     $counter = 0;
     foreach($ipList as $ip){
-      if(!preg_match('/:/',$ip) &&!$this->isLocalRequest($ip) && !Client::exists($ip)){
+      if(!preg_match(self::IPPATT,$ip) && !$this->isLocalRequest($ip) && !Client::exists($ip)){
         if($counter++ <= self::QUERYLIMIT){
           $this->newClients[] = $this->_buildNewClient($ip);
         }else{
