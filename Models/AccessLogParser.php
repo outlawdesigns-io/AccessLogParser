@@ -73,7 +73,7 @@ class AccessLogParser{
       }
       if(preg_match_all(self::QUOTEPATTERN,$logStr,$matches)){
         $pieces = explode('/',$matches[1][2]);
-        return array('platform'=>'','browser'=>$pieces[0],'version'=>$pieces[1]);
+        return array('platform'=>'','browser'=>$pieces[0],'version'=>isset($pieces[1]) ? $pieces[1] : null);
       }
       return false;
     }
