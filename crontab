@@ -9,7 +9,7 @@
 # DOW      Day Of Week     0-6
 # CMD      Command         Any command to be executed.
 ################################################################################################################################
-
+SHELL=/bin/bash
 0 */3 * * * (time php /var/www/html/AccessLogParser/Jobs/StartLogMonitor.php) > /tmp/log 2>&1
 15 */4 * * * (time php /var/www/html/AccessLogParser/Jobs/StartAttackMonitor.php) > /tmp/Attack 2>&1
 20 */4 * * * (time php /var/www/html/AccessLogParser/Jobs/StartAttackMonitor.php) > /tmp/Client 2>&1
