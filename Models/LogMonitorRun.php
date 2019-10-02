@@ -12,6 +12,7 @@ class LogMonitorRun extends Record{
   public $StartTime;
   public $EndTime;
   public $RunTime;
+  public $RecordsProcessed;
   public $CombinedLogSize;
   public $Hosts;
 

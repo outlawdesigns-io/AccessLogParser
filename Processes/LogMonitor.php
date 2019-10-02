@@ -5,10 +5,13 @@ require __DIR__ . '/../Models/AccessLogParser.php';
 
 class LogMonitor{
 
+  public $recordsProcessed;
+
   protected $_hosts = array();
 
   public function __construct($hostObjects){
     $this->_hosts = $hostObjects;
+    $this->recordsProcessed = 0;
     $this->_parse();
   }
   protected function _parse(){
@@ -45,6 +48,7 @@ class LogMonitor{
       $lastRequest = Request::lastRequest($request->host,$request->port);
       if(strtotime($request->requestDate) > strtotime($lastRequest->requestDate)){
         $request->create();
+        $this->recordsProcessed++;
       }
     }catch(\Exception $e){
       $request->create();

@@ -17,6 +17,7 @@ try{
 $endTime = microtime(true);
 $executionSeconds = $endTime - $startTime;
 $run->Hosts = count($hosts);
+$run->RecordsProcessed = $m->recordsProcessed; 
 $run->CombinedLogSize = 0;
 $run->EndTime = date("Y-m-d H:i:s");
 $run->RunTime = $executionSeconds;
