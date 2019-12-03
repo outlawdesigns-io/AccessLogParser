@@ -38,4 +38,12 @@ class Host extends Record{
   public static function countOf($key){
     return parent::countOf(self::DB,self::TABLE,$key);
   }
+  public static function recent($limit){
+    $data = array();
+    $ids = Record::getRecent(self::DB,self::TABLE,self::PRIMARYKEY,$limit);
+    foreach($ids as $id){
+      $data[] = new self($id);
+    }
+    return $data;
+  }
 }

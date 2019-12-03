@@ -122,4 +122,12 @@ class Request extends Record{
       }
       return $data;
     }
+    public static function recent($limit){
+      $data = array();
+      $ids = Record::getRecent(self::DB,self::TABLE,self::PRIMARYKEY,$limit);
+      foreach($ids as $id){
+        $data[] = new self($id);
+      }
+      return $data;
+    }
 }
