@@ -95,6 +95,7 @@ class Request extends Record{
           ->select("count(*) as downloads,query")
           ->where("host","=","'loe.outlawdesigns.io'")
           ->andWhere("responseCode","in","(202,206,304)")
+          ->andWhere("query","like","'%" . $model . "%'")
           ->andWhere("(query like '%.mp4' or ","query like '%.mkv' or ","query like '%.avi')")
           ->groupBy("query")
           ->orderBy("downloads desc, requestDate desc")
