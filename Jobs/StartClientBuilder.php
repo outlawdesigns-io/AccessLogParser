@@ -7,7 +7,7 @@ $sleepTime = 180;
 
 while($runAgain){
   try{
-    $processor = new ClientBuilder()
+    $processor = new ClientBuilder();
     $processor->save();
   }catch(\Exception $e){
     echo $e->getMessage() . "\n";
