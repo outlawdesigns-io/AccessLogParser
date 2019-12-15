@@ -10,6 +10,7 @@ class Host extends Record{
 
   public $id;
   public $label;
+  public $friendlyLabel;
   public $port;
   public $log_path;
 
