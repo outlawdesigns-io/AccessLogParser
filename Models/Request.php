@@ -83,6 +83,31 @@ class Request extends Record{
       }
       return $data;
     }
+    public static function videoCounts($model){
+      $models = array('Tv','Movies');
+      if(!in_array($model,$models)){
+        throw new \Exception('Invalid Model');
+      }
+      $data = null;
+      $results = $GLOBALS['db']
+          ->database(self::DB)
+          ->table(self::TABLE)
+          ->select("count(*) as downloads,query")
+          ->where("host","=","'loe.outlawdesigns.io'")
+          ->andWhere("responseCode","in","(202,206,304)")
+          ->andWhere("query","like","'%" . $model . "%'")
+          ->andWhere("(query like '%.mp4' or ","query like '%.mkv' or ","query like '%.avi')")
+          ->groupBy("query")
+          ->orderBy("downloads desc, requestDate desc")
+          ->get();
+      if(!mysqli_num_rows($results)){
+        throw new \Exception('No Downloads');
+      }
+      while($row = mysqli_fetch_assoc($results)){
+        $data[] = $row;
+      }
+      return $data;
+    }
     public static function get404s(){
       $data = null;
       $results = $GLOBALS['db']
@@ -117,6 +142,14 @@ class Request extends Record{
     public static function search($key,$value){
       $data = array();
       $ids = parent::search(self::DB,self::TABLE,self::PRIMARYKEY,$key,$value);
+      foreach($ids as $id){
+        $data[] = new self($id);
+      }
+      return $data;
+    }
+    public static function recent($limit){
+      $data = array();
+      $ids = Record::getRecent(self::DB,self::TABLE,self::PRIMARYKEY,$limit);
       foreach($ids as $id){
         $data[] = new self($id);
       }

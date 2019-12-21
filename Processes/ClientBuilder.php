@@ -10,7 +10,7 @@ class ClientBuilder{
   const IPKEY = 'ip_address';
   const IPPATT = '/[1-9]{1,3}\.[1-9]{1,3}\.[1-9]{1,3}\.[1-9]{1,3}/';
   const IPAPI = 'http://ip-api.com/json/';
-  const QUERYLIMIT = '100';
+  const QUERYLIMIT = 40;
 
   public $localIp;
   public $newClients = array();
