@@ -63,45 +63,20 @@ class Request extends Record{
       }
       return $data;
     }
-    public static function SongCounts(){
-      $data = null;
-      $results = $GLOBALS['db']
-          ->database(self::DB)
-          ->table(self::TABLE)
-          ->select("count(*) as listens,query")
-          ->where("host","=","'loe.outlawdesigns.io'")
-          ->andWhere("query","like","'%.mp3'")
-          ->andWhere("responseCode","in","(202,206,304)")
-          ->groupBy("query")
-          ->orderBy("listens desc, requestDate desc")
-          ->get();
-      if(!mysqli_num_rows($results)){
-        throw new \Exception("No Songs Streamed");
-      }
-      while($row = mysqli_fetch_assoc($results)){
-        $data[] = $row;
-      }
-      return $data;
-    }
-    public static function videoCounts($model){
-      $models = array('Tv','Movies');
-      if(!in_array($model,$models)){
-        throw new \Exception('Invalid Model');
-      }
+    public static function docTypeCounts($extension){
       $data = null;
       $results = $GLOBALS['db']
           ->database(self::DB)
           ->table(self::TABLE)
           ->select("count(*) as downloads,query")
           ->where("host","=","'loe.outlawdesigns.io'")
+          ->andWhere("query","like","'%" . $extension . "'")
           ->andWhere("responseCode","in","(202,206,304)")
-          ->andWhere("query","like","'%" . $model . "%'")
-          ->andWhere("(query like '%.mp4' or ","query like '%.mkv' or ","query like '%.avi')")
           ->groupBy("query")
           ->orderBy("downloads desc, requestDate desc")
           ->get();
       if(!mysqli_num_rows($results)){
-        throw new \Exception('No Downloads');
+        throw new \Exception('No Docs');
       }
       while($row = mysqli_fetch_assoc($results)){
         $data[] = $row;
