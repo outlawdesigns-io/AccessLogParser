@@ -90,7 +90,7 @@ class Request extends Record{
           ->table(self::TABLE)
           ->select(self::PRIMARYKEY)
           ->where($key,"like","'%" . parent::cleanString($value) . "'")
-          ->andWhere("requestDate",$dateOperator,$datevalue)
+          ->andWhere("requestDate",$dateOperator,"'" . $datevalue . "'")
           ->get();
       if(!mysqli_num_rows($results)){
         throw new \Exception('No Records');
