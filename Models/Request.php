@@ -83,7 +83,7 @@ class Request extends Record{
       }
       return $data;
     }
-    public static dateConstrainedSearch($key,$value,$dateOperator,$datevalue){
+    public static function dateConstrainedSearch($key,$value,$dateOperator,$datevalue){
       $data = null;
       $results = $GLOBALS['db']
           ->database(self::DB)
