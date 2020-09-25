@@ -83,6 +83,23 @@ class Request extends Record{
       }
       return $data;
     }
+    public static dateConstrainedSearch($key,$value,$dateOperator,$datevalue){
+      $data = null;
+      $results = $GLOBALS['db']
+          ->database(self::DB)
+          ->table(self::TABLE)
+          ->select(self::PRIMARYKEY)
+          ->where($key,"like","'%" . parent::cleanString($value) . "'")
+          ->andWhere("requestDate",$dateOperator,$datevalue)
+          ->get();
+      if(!mysqli_num_rows($results)){
+        throw new \Exception('No Records');
+      }
+      while($row = mysqli_fetch_assoc($results)){
+        $data[] = new self($row[self::PRIMARYKEY]);
+      }
+      return $data;
+    }
     public static function get404s(){
       $data = null;
       $results = $GLOBALS['db']
