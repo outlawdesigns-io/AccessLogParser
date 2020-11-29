@@ -26,7 +26,7 @@ class LogMonitorSlim{
   }
   protected function _getLastRequest(){
     $lastRequest = Request::lastRequest($this->_host->label,$this->_host->port);
-    $this->$_lastRequestTime = strtotime($lastRequest->requestDate);
+    $this->_lastRequestTime = strtotime($lastRequest->requestDate);
     return $this;
   }
   protected function _parseLines(){
