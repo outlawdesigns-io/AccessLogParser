@@ -32,7 +32,7 @@ class LogMonitorSlim{
   protected function _parseLines(){
     foreach($this->_lines as $line){
       if($ip_address = AccessLogParser::parseIP($line)){
-        $request = $this->_parseRequest($line);
+        $request = $this->_parseRequest($ip_address,$line);
         if(strtotime($request->requestDate) > $this->_lastRequestTime){
           $this->_saveRequest($request);
         }
@@ -40,7 +40,7 @@ class LogMonitorSlim{
     }
     return $this;
   }
-  protected function _parseRequest($line){
+  protected function _parseRequest($ip_address,$line){
     $request = new Request();
     $request->host = $this->_host->label;
     $request->port = $this->_host->port;
