@@ -33,6 +33,8 @@ class LogMonitorSlim{
     foreach($this->_lines as $line){
       if($ip_address = AccessLogParser::parseIP($line)){
         $request = $this->_parseRequest($ip_address,$line);
+        echo $request->requestDate . "\n";
+        echo date('m/d/Y H:i:s',$this->_lastRequestTime);
         if(strtotime($request->requestDate) > $this->_lastRequestTime){
           $this->_saveRequest($request);
         }
