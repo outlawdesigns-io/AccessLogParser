@@ -7,51 +7,63 @@ class LogMonitor{
 
   public $recordsProcessed;
 
-  protected $_hosts = array();
+  protected $_host;
+  protected $_lastRequestTime;
+  protected $_lines = array();
 
-  public function __construct($hostObjects){
-    $this->_hosts = $hostObjects;
+  public function __construct($hostObject){
+    $this->_host = $hostObject;
     $this->recordsProcessed = 0;
-    $this->_parse();
+    $this->_readData()
+      ->_getLastRequest()
+      ->_parseLines();
   }
-  protected function _parse(){
-    foreach($this->_hosts as $host){
-      if(!$lines = file($host->log_path)){
-        throw new \Exception('Unable to Read: ' . $host->log_path);
-      }
-      foreach($lines as $line){
-        if(!$ip_address = AccessLogParser::parseIP($line)){
-          continue;
-        }else{
-          $request = new Request();
-          $request->host = $host->label;
-          $request->port = $host->port;
-          $request->ip_address = $ip_address;
-          $request->requestDate = AccessLogParser::parseDate($line);
-          $request->requestMethod = AccessLogParser::parseMethod($line);
-          $request->query = AccessLogParser::parseQuery($line);
-          $request->referrer = AccessLogParser::parseReferrer($line);
-          $request->responseCode = AccessLogParser::parseResponseCode($line);
-          if($user = AccessLogParser::parseUserAgent($line)){
-            $request->platform = $user['platform'];
-            $request->browser = $user['browser'];
-            $request->version = $user['version'];
-          }
-          $this->_validateRequest($request);
+  protected function _readData(){
+    if(!$this->_lines = file($this->_host->log_path)){
+      throw new \Exception('Unable to Read: ' . $this->_host->log_path);
+    }
+    return $this;
+  }
+  protected function _getLastRequest(){
+    $lastRequest = Request::lastRequest($this->_host->label,$this->_host->port);
+    $this->_lastRequestTime = strtotime($lastRequest->requestDate);
+    return $this;
+  }
+  protected function _parseLines(){
+    foreach($this->_lines as $line){
+      if($ip_address = AccessLogParser::parseIP($line)){
+        $request = $this->_parseRequest($ip_address,$line);
+        if(strtotime($request->requestDate) > $this->_lastRequestTime){
+          $this->_saveRequest($request);
         }
       }
     }
     return $this;
   }
-  protected function _validateRequest($request){
+  protected function _parseRequest($ip_address,$line){
+    $request = new Request();
+    $request->host = $this->_host->label;
+    $request->port = $this->_host->port;
+    $request->ip_address = $ip_address;
+    $request->requestDate = AccessLogParser::parseDate($line);
+    $request->requestMethod = AccessLogParser::parseMethod($line);
+    $request->query = AccessLogParser::parseQuery($line);
+    $request->referrer = AccessLogParser::parseReferrer($line);
+    $request->responseCode = AccessLogParser::parseResponseCode($line);
+    if($user = AccessLogParser::parseUserAgent($line)){
+      $request->platform = $user['platform'];
+      $request->browser = $user['browser'];
+      $request->version = $user['version'];
+    }
+    return $request;
+  }
+  protected function _saveRequest($request){
     try{
-      $lastRequest = Request::lastRequest($request->host,$request->port);
-      if(strtotime($request->requestDate) > strtotime($lastRequest->requestDate)){
-        $request->create();
-        $this->recordsProcessed++;
-      }
-    }catch(\Exception $e){
       $request->create();
+      $this->recordsProcessed++;
+      $this->_lastRequestTime = strtotime($request->requestDate);
+    }catch(\Exception $e){
+      throw new \Exception($e->getMessage());
     }
     return $this;
   }

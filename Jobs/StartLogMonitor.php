@@ -9,15 +9,17 @@ $startTime = microtime(true);
 $run->StartTime = date("Y-m-d H:i:s");
 
 $hosts = Host::getAll();
-try{
-  $m = new LogMonitor($hosts);
-}catch(\Exception $e){
-  echo $e->getMessage() . "\n";
+foreach($hosts as $host){
+  try{
+    $m = new LogMonitor($host);
+  }catch(\Exception $e){
+    echo $e->getMessage() . "\n";
+  }
 }
 $endTime = microtime(true);
 $executionSeconds = $endTime - $startTime;
 $run->Hosts = count($hosts);
-$run->RecordsProcessed = $m->recordsProcessed; 
+$run->RecordsProcessed = $m->recordsProcessed;
 $run->CombinedLogSize = 0;
 $run->EndTime = date("Y-m-d H:i:s");
 $run->RunTime = $executionSeconds;
