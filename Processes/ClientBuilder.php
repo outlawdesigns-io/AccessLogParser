@@ -7,6 +7,7 @@ class ClientBuilder{
 
   const LOOPBACK = '127.0.0.1';
   const LOCAL = '172.17.0.1';
+  const LOCALPATT1 = '/192\.168\.1/';
   const IPKEY = 'ip_address';
   const IPPATT = '/[1-9]{1,3}\.[1-9]{1,3}\.[1-9]{1,3}\.[1-9]{1,3}/';
   const IPAPI = 'http://ip-api.com/json/';
@@ -63,10 +64,7 @@ class ClientBuilder{
   }
   public static function isLocalRequest($remoteIp){
     $localIp = self::getLocalIp();
-    if($remoteIp == self::LOOPBACK){
-      return true;
-    }
-    if($remoteIp == self::LOCAL){
+    if($remoteIp == self::LOOPBACK || $remoteIp == self::LOCAL || preg_match(self::LOCALPATT1,$remoteIp)){
       return true;
     }
     $localPieces = explode('.',$localIp);
