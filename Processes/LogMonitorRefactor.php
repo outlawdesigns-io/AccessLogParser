@@ -42,8 +42,8 @@ class LogMonitorSlim{
   }
   protected function _parseRequest($line){
     $request = new Request();
-    $request->host = $host->label;
-    $request->port = $host->port;
+    $request->host = $this->_host->label;
+    $request->port = $this->_host->port;
     $request->ip_address = $ip_address;
     $request->requestDate = AccessLogParser::parseDate($line);
     $request->requestMethod = AccessLogParser::parseMethod($line);
