@@ -10,6 +10,7 @@
 # CMD      Command         Any command to be executed.
 ################################################################################################################################
 SHELL=/bin/bash
+TZ="America/Chicago"
 #0 */3 * * * (time php /var/www/html/Libs/AccessLogParser/Jobs/StartLogMonitor.php) >> /tmp/log 2>&1
 15 */4 * * * (time php /var/www/html/Libs/AccessLogParser/Jobs/StartAttackMonitor.php) >> /tmp/Attack 2>&1
 #20 */4 * * * (time php /var/www/html/Libs/AccessLogParser/Jobs/StartClientBuilder.php) >> /tmp/Client 2>&1
