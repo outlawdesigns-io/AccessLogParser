@@ -5,6 +5,8 @@ require __DIR__ . '/../Models/AccessLogParser.php';
 
 class LogMonitor{
 
+  const DEBUG = true;
+
   public $recordsProcessed;
 
   protected $_host;
@@ -59,7 +61,7 @@ class LogMonitor{
   }
   protected function _saveRequest($request){
     try{
-      $request->create();
+      self::DEBUG ? print_r($request):$request->create();
       $this->recordsProcessed++;
       $this->_lastRequestTime = strtotime($request->requestDate);
     }catch(\Exception $e){
