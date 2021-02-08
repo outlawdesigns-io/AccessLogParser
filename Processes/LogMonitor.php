@@ -5,7 +5,7 @@ require __DIR__ . '/../Models/AccessLogParser.php';
 
 class LogMonitor{
 
-  const DEBUG = true;
+  const DEBUG = false;
 
   public $recordsProcessed;
 

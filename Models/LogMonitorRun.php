@@ -4,6 +4,8 @@ require_once __DIR__ . '/../Libs/Record/Record.php';
 
 class LogMonitorRun extends Record{
 
+  const DEBUG = false;
+
   const DB = 'web_access';
   const TABLE = 'LogMonitorRun';
   const PRIMARYKEY = 'Id';

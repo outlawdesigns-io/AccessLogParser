@@ -29,4 +29,4 @@ foreach($hosts as $host){
 }
 $run->CombinedLogSize = ($run->CombinedLogSize / 1000) / 1000;
 
-LogMonitorRun::DEBUG ? $run->create():false;
+LogMonitorRun::DEBUG ? $run->create():print_r($run);
