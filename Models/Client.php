@@ -27,6 +27,14 @@ class Client extends Record{
   public function __construct($Id = null){
     parent::__construct(self::DB,self::TABLE,self::PRIMARYKEY,$Id);
   }
+  public static function getAll(){
+    $data = array();
+    $ids = parent::getAll(self::DB,self::TABLE,self::PRIMARYKEY);
+    foreach($ids as $id){
+      $data[] = new self($id);
+    }
+    return $data;
+  }
   public static function exists($IpAddress){
     $results = $GLOBALS['db']
         ->database(self::DB)
