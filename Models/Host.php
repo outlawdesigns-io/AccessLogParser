@@ -13,6 +13,7 @@ class Host extends Record{
   public $friendlyLabel;
   public $port;
   public $log_path;
+  public $active;
 
   public function __construct($id = null){
     parent::__construct(self::DB,self::TABLE,self::PRIMARYKEY,$id);

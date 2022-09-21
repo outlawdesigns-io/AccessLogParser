@@ -10,11 +10,16 @@ $run->StartTime = date("Y-m-d H:i:s");
 $run->RecordsProcessed = 0;
 $hosts = Host::getAll();
 foreach($hosts as $host){
+  if(!$host->active){
+    continue;
+  }
   try{
     $m = new LogMonitor($host);
     $run->RecordsProcessed += $m->recordsProcessed;
+    $run->CombinedLogSize += filesize($host->log_path);
   }catch(\Exception $e){
     echo $e->getMessage() . "\n";
+    continue;
   }
 }
 $endTime = microtime(true);
@@ -24,9 +29,6 @@ $run->CombinedLogSize = 0;
 $run->EndTime = date("Y-m-d H:i:s");
 $run->RunTime = $executionSeconds;
 
-foreach($hosts as $host){
-  $run->CombinedLogSize += filesize($host->log_path);
-}
 $run->CombinedLogSize = ($run->CombinedLogSize / 1000) / 1000;
 
 LogMonitorRun::DEBUG ? print_r($run):$run->create();
