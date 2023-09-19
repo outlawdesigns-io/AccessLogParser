@@ -8,6 +8,7 @@ $run = new LogMonitorRun();
 $startTime = microtime(true);
 $run->StartTime = date("Y-m-d H:i:s");
 $run->RecordsProcessed = 0;
+$run->CombinedLogSize = 0;
 $hosts = Host::getAll();
 foreach($hosts as $host){
   if(!$host->active){
@@ -25,7 +26,6 @@ foreach($hosts as $host){
 $endTime = microtime(true);
 $executionSeconds = $endTime - $startTime;
 $run->Hosts = count($hosts);
-$run->CombinedLogSize = 0;
 $run->EndTime = date("Y-m-d H:i:s");
 $run->RunTime = $executionSeconds;
 
