@@ -20,10 +20,37 @@ class Request extends Record{
     public $requestMethod;
     public $query;
     public $referrer;
+    public $responseBytes;
 
     public function __construct($id = null)
     {
         parent::__construct(self::DB,self::TABLE,self::PRIMARYKEY,$id);
+    }
+    public static function recordExists($host,$port,$ip_address,$responseCode,$requestDate,$requestMethod,$query){
+      $data = null;
+      $results = $GLOBALS['db']
+            ->database(self::DB)
+            ->table(self::TABLE)
+            ->select(self::PRIMARYKEY)
+            ->where("host","=","'" . $host . "'")
+            ->andWhere("port","=",$port)
+            ->andWhere("ip_address","=","'" . $ip_address . "'")
+            //->andWhere("platform","=","'" . $platform . "'")
+            //->andWhere("browser","=","'" . $browser . "'")
+            //->andWhere("version","=","'" . $version . "'")
+            ->andWhere("responseCode","=",$responseCode)
+            ->andWhere("requestDate","=","'" . $requestDate . "'")
+            ->andWhere("requestMethod","=","'" . $requestMethod . "'")
+            ->andWhere("query","=","'" . preg_replace("/'/","''",$query) . "'")
+            //->andWhere("referrer","=","'" . $referrer . "'")
+            ->get();
+      if(!mysqli_num_rows($results)){
+        return false;
+      }
+      while($row = mysqli_fetch_assoc($results)){
+        $data = $row[self::PRIMARYKEY];
+      }
+      return $data;
     }
     public static function lastRequest($host,$port){
         $data = null;

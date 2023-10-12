@@ -12,6 +12,7 @@ class AccessLogParser{
     const REFERRERPATTERN = '/"http:(.*)\"\w/';
     const RESPONSEPATTERN = '/HTTP\/[0-9]\.[0-9]"\s([0-9]{3})/';
     const QUOTEPATTERN = '/"([^"]*)"/';
+    const BYTESPATTERN = '/HTTP\/[0-9]\.[0-9]"\s[0-9]{3}\s([0-9]{1,})\s/';
     const LOOPBACKADDRESS = '127.0.0.1';
 
     public function __construct(){}
@@ -65,6 +66,12 @@ class AccessLogParser{
             return trim($matches[1]);
         }
         return false;
+    }
+    public static function parseBytesSent($logStr){
+      if(preg_match(self::BYTESPATTERN,$logStr,$matches)){
+        return trim($matches[1]);
+      }
+      return false;
     }
     public static function parseUserAgent($logStr){
       $user = parse_user_agent($logStr);

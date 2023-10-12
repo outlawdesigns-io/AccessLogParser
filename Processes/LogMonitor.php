@@ -17,7 +17,6 @@ class LogMonitor{
     $this->_host = $hostObject;
     $this->recordsProcessed = 0;
     $this->_readData()
-      ->_getLastRequest()
       ->_parseLines();
   }
   protected function _readData(){
@@ -26,16 +25,11 @@ class LogMonitor{
     }
     return $this;
   }
-  protected function _getLastRequest(){
-    $lastRequest = Request::lastRequest($this->_host->label,$this->_host->port);
-    $this->_lastRequestTime = strtotime($lastRequest->requestDate);
-    return $this;
-  }
   protected function _parseLines(){
     foreach($this->_lines as $line){
       if($ip_address = AccessLogParser::parseIP($line)){
         $request = $this->_parseRequest($ip_address,$line);
-        if(strtotime($request->requestDate) > $this->_lastRequestTime){
+        if(!Request::recordExists($this->_host->label,$this->_host->port,$request->ip_address,$request->responseCode,$request->requestDate,$request->requestMethod,$request->query)){
           $this->_saveRequest($request);
         }
       }
@@ -63,7 +57,6 @@ class LogMonitor{
     try{
       self::DEBUG ? print_r($request):$request->create();
       $this->recordsProcessed++;
-      $this->_lastRequestTime = strtotime($request->requestDate);
     }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }
