@@ -46,6 +46,7 @@ class LogMonitor{
     $request->query = AccessLogParser::parseQuery($line);
     $request->referrer = AccessLogParser::parseReferrer($line);
     $request->responseCode = AccessLogParser::parseResponseCode($line);
+    $request->responseBytes = AccessLogParser::parseBytesSent($line);
     if($user = AccessLogParser::parseUserAgent($line)){
       $request->platform = $user['platform'];
       $request->browser = $user['browser'];
